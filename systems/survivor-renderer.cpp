@@ -1,10 +1,13 @@
 #include "systems/survivor-renderer.hpp"
+#include "components/animation.hpp"
+#include "components/flashlight.hpp"
 #include "components/position.hpp"
 #include "components/survivor.hpp"
 #include <entt/entity/registry.hpp>
 #include <fmt/format.h>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Texture.hpp>
+#include <SFML/System/Time.hpp>
 #include <string_view>
 
 using fmt::format;
@@ -14,7 +17,7 @@ using std::string_view;
 namespace
 {
 
-const auto IMAGE_FILE_PATH = "graphics/survivor/flashlight/idle/survivor-idle_flashlight_0.png";
+const auto IMAGE_FILE_PATH = "graphics/survivor/flashlight/idle/survivor-idle_flashlight_{}.png";
 
 struct TextureLoadError : runtime_error
 {
@@ -25,27 +28,33 @@ struct TextureLoadError : runtime_error
 
 }
 
-SurvivorRenderer::SurvivorRenderer(sf::RenderTarget& surface)
- : surface(surface)
+SurvivorRenderer::SurvivorRenderer(const entt::registry& registry, sf::RenderTarget& renderTarget)
+ : registry(registry), renderTarget(renderTarget)
 {
-    if (not texture.loadFromFile(IMAGE_FILE_PATH))
+    for (auto i = 0u; i < flashlightIdleTextures.size(); ++i)
     {
-        throw TextureLoadError(IMAGE_FILE_PATH);
+        const auto filePath = format(IMAGE_FILE_PATH, i);
+        if (not flashlightIdleTextures[i].loadFromFile(filePath))
+        {
+            throw TextureLoadError(filePath);
+        }
     }
-
-    sprite.setTexture(texture);
-    sprite.setScale(0.5, 0.5);
-    const auto bounds = sprite.getLocalBounds();
-    sprite.setOrigin(bounds.width/2, bounds.height/2);
 }
 
-void SurvivorRenderer::draw(const entt::registry& registry)
+void SurvivorRenderer::update(sf::Time)
 {
-    const auto view = registry.view<const Survivor, const Position>();
+    const auto view = registry.view<const Survivor, const Flashlight, const Animation, const Position>();
     for (const auto entity: view)
     {
+        const auto& animation = view.get<const Animation>(entity);
+        sf::Sprite sprite{flashlightIdleTextures.at(animation.frame)};
+        const auto bounds = sprite.getLocalBounds();
+        sprite.setOrigin(bounds.width/2, bounds.height/2);
+        sprite.setScale(0.5, 0.5);
+
         const auto& position = view.get<const Position>(entity);
         sprite.setPosition({position.x, position.y});
-        surface.draw(sprite);
+
+        renderTarget.draw(sprite);
     }
 }

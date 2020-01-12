@@ -1,45 +1,54 @@
 #include "core/game.hpp"
 #include "core/logger.hpp"
-#include "systems/survivor-renderer.hpp"
+#include "systems/isystem.hpp"
 #include <magic_enum.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 
 using namespace magic_enum::ostream_operators;
 
-namespace
+Game::Game(sf::RenderWindow& window, Systems& systems)
+    : window(window), systems(systems)
 {
-
-void draw(sf::RenderWindow& window, entt::registry& registry, SurvivorRenderer& survivorRenderer)
-{
-    window.clear();
-    survivorRenderer.draw(registry);
-    window.display();
 }
 
-}
-
-void runGame(sf::RenderWindow& window, entt::registry& registry, SurvivorRenderer& renderer)
+void Game::run()
 {
+    sf::Clock clock;
     while (window.isOpen())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            switch (event.type)
-            {
-            case sf::Event::Closed:
-            {
-                window.close();
-                break;
-            }
-            default:
-            {
-                SPDLOG_DEBUG("Event: {}\n", event.type);
-            }
-            }
-        }
+        const auto elapsed = clock.restart();
+        window.clear();
+        handleEvents();
+        update(elapsed);
+        window.display();
+    }
+}
 
-        draw(window, registry, renderer);
+void Game::handleEvents()
+{
+    sf::Event event;
+    while (window.pollEvent(event))
+    {
+        switch (event.type)
+        {
+        case sf::Event::Closed:
+        {
+            window.close();
+            break;
+        }
+        default:
+        {
+            SPDLOG_DEBUG("Event: {}\n", event.type);
+        }
+        }
+    }
+}
+
+void Game::update(const sf::Time elapsed)
+{
+    for (auto& system: systems)
+    {
+        system->update(elapsed);
     }
 }

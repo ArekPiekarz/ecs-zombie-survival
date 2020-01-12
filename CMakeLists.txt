@@ -36,6 +36,7 @@ add_executable(${TARGET_NAME}
     setup/logger-setup.cpp
     setup/player.cpp
     setup/window.cpp
+    systems/looped-animator.cpp
     systems/survivor-renderer.cpp
     main.cpp)
 target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wextra -Wpedantic)

@@ -1,8 +1,23 @@
 #pragma once
 
-#include <entt/fwd.hpp>
+#include "systems/systems.hpp"
 
-class SurvivorRenderer;
-namespace sf { class RenderWindow; }
+namespace sf
+{
+class RenderWindow;
+class Time;
+}
 
-void runGame(sf::RenderWindow&, entt::registry&, SurvivorRenderer&);
+class Game
+{
+public:
+    Game(sf::RenderWindow&, Systems&);
+    void run();
+
+private:
+    void handleEvents();
+    void update(sf::Time);
+
+    sf::RenderWindow& window;
+    Systems& systems;
+};
