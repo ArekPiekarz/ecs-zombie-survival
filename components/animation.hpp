@@ -1,9 +1,10 @@
 #pragma once
 
-#include "core/types.hpp"
+#include "types/frame.hpp"
+#include "types/uint.hpp"
 
 struct Animation
 {
-    uint frame = 0;
+    Frame frame = 0;
     uint size = 1;
 };

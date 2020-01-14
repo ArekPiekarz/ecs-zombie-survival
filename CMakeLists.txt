@@ -26,23 +26,25 @@ conan_cmake_run(
         sfml:window=True
     BASIC_SETUP
     CMAKE_TARGETS
-    BUILD missing)
-
-#include(${CMAKE_CURRENT_SOURCE_DIR})
+    BUILD outdated)
 
 set(TARGET_NAME ${CMAKE_PROJECT_NAME})
 add_executable(${TARGET_NAME}
     core/game.cpp
     setup/logger-setup.cpp
-    setup/player.cpp
+    setup/survivor-renderer-setup.cpp
+    setup/survivor-setup.cpp
+    setup/texture-loader.cpp
     setup/window.cpp
+    setup/zombie-renderer-setup.cpp
+    setup/zombie-setup.cpp
     systems/looped-animator.cpp
-    systems/survivor-renderer.cpp
+    systems/sprite-renderer.cpp
     main.cpp)
 target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wextra -Wpedantic)
 target_link_libraries(${TARGET_NAME}
     CONAN_PKG::Backward
-    CONAN_PKG::EnTT
+    CONAN_PKG::entt
     CONAN_PKG::magic_enum
     CONAN_PKG::sfml
     CONAN_PKG::spdlog)

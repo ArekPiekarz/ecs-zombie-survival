@@ -1,16 +1,25 @@
 #include "systems/looped-animator.hpp"
 #include "components/animation.hpp"
+#include "constants/animation-constants.hpp"
+#include "constants/window-constants.hpp"
 #include <entt/entity/registry.hpp>
 
-LoopedAnimator::LoopedAnimator(entt::registry& registry, sf::Time frameTime)
-    : registry(registry), frameTime(frameTime.asMilliseconds())
+namespace
+{
+
+const auto FRAME_TIME = WINDOW_FRAME_TIME.asMilliseconds() * ANIMATION_FRAME_TIME_SCALE;
+
+}
+
+LoopedAnimator::LoopedAnimator(entt::registry& registry)
+    : registry(registry)
 {
 }
 
 void LoopedAnimator::update(const sf::Time elapsed)
 {
     elapsedSum += elapsed.asMilliseconds();
-    const auto frameProgress = elapsedSum / frameTime;
+    const auto frameProgress = static_cast<uint>(elapsedSum / FRAME_TIME);
     if (frameProgress == 0)
     {
         return;
@@ -23,5 +32,5 @@ void LoopedAnimator::update(const sf::Time elapsed)
         animation.frame = (animation.frame + frameProgress) % animation.size;
     }
     
-    elapsedSum -= frameProgress * frameTime;
+    elapsedSum -= frameProgress * FRAME_TIME;
 }

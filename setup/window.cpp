@@ -1,10 +1,11 @@
 #include "setup/window.hpp"
+#include "constants/window-constants.hpp"
 
 Window::Window()
  : window(sf::VideoMode(800, 600), "ECS Zombie Survival")
 {
     window.setVerticalSyncEnabled(true);
-    window.setFramerateLimit(getFrameLimit());
+    window.setFramerateLimit(WINDOW_FRAME_LIMIT);
     centerWindow();
 }
 
@@ -24,14 +25,4 @@ sf::RenderWindow& Window::operator*()
 sf::RenderWindow* Window::operator->()
 {
     return &window;
-}
-
-uint Window::getFrameLimit()
-{
-    return 60;
-}
-
-sf::Time Window::getFrameTime()
-{
-    return sf::milliseconds(1000.0 / getFrameLimit());
 }
