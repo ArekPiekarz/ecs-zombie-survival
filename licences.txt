@@ -3,6 +3,11 @@ Source: https://opengameart.org/content/animated-top-down-survivor-player
 License: CC BY 3.0
 Copyright (c) 2015 Riley Gombart
 
+Files in and graphics/zombie:
+Source: https://opengameart.org/content/top-down-animated-zombie-set
+License: OGA-BY 3.0
+Copyright (c) 2015 Riley Gombart
+
 Other files:
 License: The MIT License
 Copyright (c) 2020 Arkadiusz Piekarz
