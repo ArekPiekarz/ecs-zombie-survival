@@ -1,0 +1,62 @@
+Ogólny cel - zabij zombiaki ocalałym
+Albo - zabij ocalałych zombiakami
+
+Wszyscy:
+    mają jakąś liczbę punktów wytrzymałości
+    mogą się dowolnie poruszać
+    mogą atakować
+
+Ocalały:
+    domyślnie trzyma latarkę i ma drugą rękę wolną
+    może podnosić znajdźki
+    może używać znajdziek
+    może upuszczać znajdźki
+
+Zombiaki:
+    idą w stronę ocalałych
+    gdy są blisko nich, atakują
+
+Znajdźki:
+    pojawiają się losowo na mapie co jakiś czas
+
+Zwykłe znajdźki:
+    pistolet
+    karabin
+    magazynek
+    pułapka
+    apteczka
+
+Nietypowe znajdźki:
+    broń do przejmowania kontroli nad przeciwnikiem
+    przyspieszenie chodzenia
+    broń do odpychania przeciwników
+    broń do zmniejszania przeciwników
+    broń do obracania przeciwników
+    broń do zamrażania przeciwników w miejscu
+    koktalj mołotowa - obszarowe obrażenia przez pewien czas
+
+Kontrolowana postać:
+    powinna się obracać w stronę kursora myszki (lub prościej: strzałkami)
+    powinna chodzić relatywnie do swojego obrotu (lub prościej: niezależnie od obrotu)
+    powinna mieć animacje odpowiednie dla wykonywanej akcji
+
+Pistolet:
+    zadaje pewną liczbę obrażeń
+    ma magazynek i pewnej pojemności
+    po skończeniu magazynka musi zostać przeładowany
+
+Karabin:
+    zadaje większą liczbę obrażeń niż pistoletu
+    ma większy magazynek niż pistolet
+
+Pułapka:
+    zatrzymuje przeciwnika i zadaje obrażenia przez jakiś czas
+
+
+Bonus:
+    przeszkody terenowe
+    pathfinding
+    płynne poruszanie się z akceleracją i deceleracją
+
+Hardcore mode:
+    widzenie tylko tego, co oświetli latarka lub chwilowy ogień przy strzale z broni
