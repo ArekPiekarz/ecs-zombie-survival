@@ -51,9 +51,17 @@ target_link_libraries(${TARGET_NAME}
 target_include_directories(${TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 
 set(TEST_TARGET_NAME ${TARGET_NAME}-test)
-add_executable(${TEST_TARGET_NAME} tests.cpp)
+add_executable(${TEST_TARGET_NAME}
+    setup/logger-setup.cpp
+    systems/looped-animator.cpp
+    systems/tests/looped-animator-tests.cpp
+    tests.cpp)
 target_compile_options(${TEST_TARGET_NAME} PRIVATE -Wall -Wextra -Wpedantic -fsanitize=address -fsanitize=undefined)
 target_link_libraries(${TEST_TARGET_NAME}
     asan
     ubsan
-    CONAN_PKG::gtest)
+    CONAN_PKG::entt
+    CONAN_PKG::gtest
+    CONAN_PKG::sfml
+    CONAN_PKG::spdlog)
+target_include_directories(${TEST_TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
