@@ -25,19 +25,19 @@ void SpriteRenderer::update(sf::Time)
     const auto view = registry.runtime_view(componentIds.cbegin(), componentIds.cend());
     for (const auto entity: view)
     {
-        const auto& animation = registry.get<const Animation>(entity);
+        const auto& animation = registry.get<Animation>(entity);
         auto sprite = sf::Sprite{textures.at(animation.frame)};
         
         const auto bounds = sprite.getLocalBounds();
         sprite.setOrigin(bounds.width/2, bounds.height/2);
 
-        const auto& position = registry.get<const Position>(entity);
+        const auto& position = registry.get<Position>(entity);
         sprite.setPosition({position.x, position.y});
 
-        const auto& rotation = registry.get<const Rotation>(entity);
+        const auto& rotation = registry.get<Rotation>(entity);
         sprite.setRotation(rotation.angle);
 
-        const auto& scale = registry.get<const Scale>(entity);
+        const auto& scale = registry.get<Scale>(entity);
         sprite.setScale(scale.value, scale.value);
 
         renderTarget.draw(sprite);

@@ -16,11 +16,11 @@ conan_add_remote(NAME neargye URL https://api.bintray.com/conan/neargye/conan-pa
 conan_cmake_run(
     REQUIRES
         backward-cpp/1.4
-        entt/3.2.2
+        entt/3.3.0
         gtest/1.10.0
-        magic_enum/0.6.4@neargye/stable
+        magic_enum/0.6.5@neargye/stable
         sfml/2.5.1@bincrafters/stable
-        spdlog/1.4.2
+        spdlog/1.5.0
     OPTIONS
         sfml:graphics=True
         sfml:window=True
