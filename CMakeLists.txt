@@ -11,14 +11,13 @@ endif()
 include(${CMAKE_BINARY_DIR}/conan.cmake)
 conan_check()
 conan_add_remote(NAME bincrafters URL https://api.bintray.com/conan/bincrafters/public-conan)
-conan_add_remote(NAME neargye URL https://api.bintray.com/conan/neargye/conan-packages)
 
 conan_cmake_run(
     REQUIRES
-        backward-cpp/1.4
-        entt/3.3.0
+        backward-cpp/1.5
+        entt/3.3.2
         gtest/1.10.0
-        magic_enum/0.6.5@neargye/stable
+        magic_enum/0.6.5
         sfml/2.5.1@bincrafters/stable
         spdlog/1.5.0
     OPTIONS
@@ -43,7 +42,7 @@ add_executable(${TARGET_NAME}
     main.cpp)
 target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wextra -Wpedantic)
 target_link_libraries(${TARGET_NAME}
-    CONAN_PKG::Backward
+    CONAN_PKG::backward-cpp
     CONAN_PKG::entt
     CONAN_PKG::magic_enum
     CONAN_PKG::sfml
