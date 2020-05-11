@@ -34,8 +34,8 @@ LoopedAnimatorTests::LoopedAnimatorTests()
 {
     const auto entity1 = registry.create();
     const auto entity2 = registry.create();
-    registry.assign<Animation>(entity1, ANIMATION1);
-    registry.assign<Animation>(entity2, ANIMATION2);
+    registry.emplace<Animation>(entity1, ANIMATION1);
+    registry.emplace<Animation>(entity2, ANIMATION2);
     animationForEntityMap.emplace(entity1, ANIMATION1);
     animationForEntityMap.emplace(entity2, ANIMATION2);
 }

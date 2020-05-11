@@ -15,7 +15,7 @@ conan_add_remote(NAME bincrafters URL https://api.bintray.com/conan/bincrafters/
 conan_cmake_run(
     REQUIRES
         backward-cpp/1.5
-        entt/3.3.2
+        entt/3.4.0
         gtest/1.10.0
         magic_enum/0.6.5
         sfml/2.5.1@bincrafters/stable

@@ -34,10 +34,10 @@ void setupZombies(entt::registry& registry)
     for (const auto& entry: zombiesParams)
     {
         const auto entity = registry.create();
-        registry.assign<Zombie>(entity);
-        registry.assign<Position>(entity, WINDOW_SIZE.x * entry.position.x, WINDOW_SIZE.y * entry.position.y);
-        registry.assign<Rotation>(entity, entry.angle);
-        registry.assign<Scale>(entity, 1.5f);
-        registry.assign<Animation>(entity, entry.frame, ZOMBIE_IDLE_FRAME_SIZE);
+        registry.emplace<Zombie>(entity);
+        registry.emplace<Position>(entity, WINDOW_SIZE.x * entry.position.x, WINDOW_SIZE.y * entry.position.y);
+        registry.emplace<Rotation>(entity, entry.angle);
+        registry.emplace<Scale>(entity, 1.5f);
+        registry.emplace<Animation>(entity, entry.frame, ZOMBIE_IDLE_FRAME_SIZE);
     }
 }
