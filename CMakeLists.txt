@@ -19,7 +19,7 @@ conan_cmake_run(
         gtest/1.10.0
         magic_enum/0.6.5
         sfml/2.5.1@bincrafters/stable
-        spdlog/1.5.0
+        spdlog/1.6.0
     OPTIONS
         sfml:graphics=True
         sfml:window=True
