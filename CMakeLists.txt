@@ -22,7 +22,9 @@ conan_cmake_run(
         sfml/2.5.1@bincrafters/stable
         spdlog/1.6.1
     OPTIONS
+        sfml:audio=False
         sfml:graphics=True
+        sfml:network=False
         sfml:window=True
     BASIC_SETUP
     CMAKE_TARGETS
