@@ -18,7 +18,7 @@ LoopedAnimator::LoopedAnimator(entt::registry& registry)
 
 void LoopedAnimator::update(const sf::Time elapsed)
 {
-    elapsedSum += elapsed.asMilliseconds();
+    elapsedSum += static_cast<uint>(elapsed.asMilliseconds());
     const auto frameProgress = static_cast<uint>(elapsedSum / FRAME_TIME);
     if (frameProgress == 0)
     {
@@ -32,5 +32,5 @@ void LoopedAnimator::update(const sf::Time elapsed)
         animation.frame = (animation.frame + frameProgress) % animation.size;
     }
     
-    elapsedSum -= frameProgress * FRAME_TIME;
+    elapsedSum -= static_cast<uint>(frameProgress * FRAME_TIME);
 }

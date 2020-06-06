@@ -12,7 +12,7 @@ using testing::Test;
 namespace
 {
 
-const auto FRAME_TIME = WINDOW_FRAME_TIME.asMilliseconds() * ANIMATION_FRAME_TIME_SCALE;
+const auto FRAME_TIME = static_cast<uint>(WINDOW_FRAME_TIME.asMilliseconds() * ANIMATION_FRAME_TIME_SCALE);
 const auto HALF_OF_FRAME_TIME = FRAME_TIME / 2;
 constexpr auto ANIMATION1 = Animation{Frame{0}, Size{2}};
 constexpr auto ANIMATION2 = Animation{Frame{3}, Size{12}};
@@ -62,24 +62,24 @@ void LoopedAnimatorTests::assertAnimationsForwardedBy(const uint progress) const
 
 TEST_F(LoopedAnimatorTests, shouldNotForwardAnimations_whenElapsedTimeIsLessThanFrameTime)
 {
-    sut.update(sf::milliseconds(HALF_OF_FRAME_TIME));
+    sut.update(sf::milliseconds(static_cast<int>(HALF_OF_FRAME_TIME)));
     assertAnimationsSameAsInitial();
 }
 
 TEST_F(LoopedAnimatorTests, shouldForwardAnimationsBy1_whenElapsedTimeEqualsFrameTime)
 {
-    sut.update(sf::milliseconds(FRAME_TIME));
+    sut.update(sf::milliseconds(static_cast<int>(FRAME_TIME)));
     assertAnimationsForwardedBy(1);
 }
 
 TEST_F(LoopedAnimatorTests, shouldForwardAnimationsBy1_whenElapsedTimeIsBetweenOneAndTwoFrameTimes)
 {
-    sut.update(sf::milliseconds(FRAME_TIME + HALF_OF_FRAME_TIME));
+    sut.update(sf::milliseconds(static_cast<int>(FRAME_TIME + HALF_OF_FRAME_TIME)));
     assertAnimationsForwardedBy(1);
 }
 
 TEST_F(LoopedAnimatorTests, shouldLoopAllAnimations_whenElapsedTimeIsProductOfTheirSizes)
 {
-    sut.update(sf::milliseconds(FRAME_TIME * ANIMATION1.size * ANIMATION2.size));
+    sut.update(sf::milliseconds(static_cast<int>(FRAME_TIME * ANIMATION1.size * ANIMATION2.size)));
     assertAnimationsSameAsInitial();
 }
