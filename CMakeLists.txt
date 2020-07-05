@@ -39,8 +39,15 @@ conan_cmake_run(
 set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 
 # Enable STL debug assertions
+# (https://gcc.gnu.org/onlinedocs/libstdc++/manual/debug_mode_semantics.html)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
     add_compile_definitions(_GLIBCXX_DEBUG=1 _GLIBCXX_DEBUG_PEDANTIC=1)
+endif()
+
+# Enable overflow checks for STD functions operating on arrays
+# (https://access.redhat.com/blogs/766093/posts/1976213)
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_compile_definitions(_FORTIFY_SOURCE=2)
 endif()
 
 
