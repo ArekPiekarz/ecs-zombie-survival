@@ -3,8 +3,6 @@ project(ecs-zombie-survival CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Enable Link Time Optimization
-set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 
 ### Dependencies
 
@@ -33,6 +31,17 @@ conan_cmake_run(
     BASIC_SETUP
     CMAKE_TARGETS
     BUILD outdated)
+
+
+### Compile options
+
+# Enable Link Time Optimization
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+
+# Enable STL debug assertions
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    add_compile_definitions(_GLIBCXX_DEBUG=1 _GLIBCXX_DEBUG_PEDANTIC=1)
+endif()
 
 
 ### Sources
