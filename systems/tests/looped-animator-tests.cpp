@@ -12,7 +12,7 @@ using testing::Test;
 namespace
 {
 
-const auto FRAME_TIME = static_cast<uint>(WINDOW_FRAME_TIME.asMilliseconds() * ANIMATION_FRAME_TIME_SCALE);
+const auto FRAME_TIME = static_cast<float>(WINDOW_FRAME_TIME.asMilliseconds()) * ANIMATION_FRAME_TIME_SCALE;
 const auto HALF_OF_FRAME_TIME = FRAME_TIME / 2;
 constexpr auto ANIMATION1 = Animation{Frame{0}, Size{2}};
 constexpr auto ANIMATION2 = Animation{Frame{3}, Size{12}};

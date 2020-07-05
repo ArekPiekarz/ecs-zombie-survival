@@ -12,5 +12,5 @@ public:
 
 private:
     entt::registry& registry;
-    uint elapsedSum = 0;
+    float elapsedSum = 0;
 };

@@ -35,7 +35,10 @@ void setupZombies(entt::registry& registry)
     {
         const auto entity = registry.create();
         registry.emplace<Zombie>(entity);
-        registry.emplace<Position>(entity, WINDOW_SIZE.x * entry.position.x, WINDOW_SIZE.y * entry.position.y);
+        registry.emplace<Position>(
+            entity,
+            static_cast<float>(WINDOW_SIZE.x) * entry.position.x,
+            static_cast<float>(WINDOW_SIZE.y) * entry.position.y);
         registry.emplace<Rotation>(entity, entry.angle);
         registry.emplace<Scale>(entity, 1.5f);
         registry.emplace<Animation>(entity, entry.frame, ZOMBIE_IDLE_FRAME_SIZE);

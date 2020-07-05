@@ -15,7 +15,7 @@ void setupSurvivor(entt::registry& registry)
     const auto entity = registry.create();
     registry.emplace<Survivor>(entity);
     registry.emplace<Flashlight>(entity);
-    registry.emplace<Position>(entity, WINDOW_SIZE.x / 2.0f + 50, WINDOW_SIZE.y / 2.0f);
+    registry.emplace<Position>(entity, static_cast<float>(WINDOW_SIZE.x) / 2.0f + 50, static_cast<float>(WINDOW_SIZE.y) / 2.0f);
     registry.emplace<Animation>(entity, FIRST_FRAME, SURVIVOR_FLASHLIGHT_IDLE_FRAME_SIZE);
     registry.emplace<Rotation>(entity, 180);
     registry.emplace<Scale>(entity, 0.5);

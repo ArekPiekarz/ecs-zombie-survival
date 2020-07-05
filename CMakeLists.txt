@@ -1,8 +1,10 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.17)
 project(ecs-zombie-survival CXX)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Enable Link Time Optimization
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 
 ### Dependencies
 
@@ -50,23 +52,103 @@ add_executable(${TARGET_NAME}
     systems/sprite-renderer.cpp
     main.cpp
 )
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    target_compile_options(${TARGET_NAME} PRIVATE
-        -Weverything
-        -Wno-c++98-compat
-        -Wno-global-constructors
-        -Wno-shadow-field-in-constructor
-        -Wno-switch-enum
-        -Wno-missing-prototypes
-        -Wno-padded
-    )
-elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    target_compile_options(${TARGET_NAME} PRIVATE
-        -Wall
-        -Wextra
-        -Wpedantic
-    )
+
+set(GCC_COMPILE_OPTIONS
+    # Generic flags (https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html):
+    -fstrict-aliasing
+    -fstack-protector
+    -Wall
+    -Wextra
+    -Wpedantic
+    -Wdouble-promotion
+    -Wformat=2
+    -Wformat-overflow=2
+    -Wformat-signedness
+    -Wformat-truncation=2
+    -Wnull-dereference
+    -Wimplicit-fallthrough=5
+    -Wmissing-include-dirs
+    -Wunused-const-variable=1
+    -Wstrict-aliasing=1
+    -Wstrict-overflow=5
+    -Wstringop-overflow=4
+    -Walloc-zero
+    -Walloca
+    -Warith-conversion
+    -Warray-bounds=2
+    -Wattribute-alias=2
+    -Wduplicated-branches
+    -Wduplicated-cond
+    -Wtrampolines
+    -Wfloat-equal
+    -Wshadow=local
+    -Wunsafe-loop-optimizations
+    -Wundef
+    -Wunused-macros
+    -Wcast-qual
+    -Wcast-align=strict
+    -Wconversion
+    -Wdate-time
+    -Wsign-conversion
+    -Wlogical-op
+    -Wno-aggressive-loop-optimizations
+    -Wno-multichar
+    -Wnormalized=nfc
+    -Wodr
+    -Wpacked
+    -Wredundant-decls
+    -Winline
+    -Winvalid-pch
+    -Wlong-long
+    -Wvector-operation-performance
+    -Wvla
+    -Wdisabled-optimization
+    -Wstack-protector
+    # C++ specific flags (https://gcc.gnu.org/onlinedocs/gcc/C_002b_002b-Dialect-Options.html):
+    -fchar8_t
+    -fno-nonansi-builtins
+    -fnothrow-opt
+    -fno-rtti
+    -fstrict-enums
+    -fuse-cxa-atexit
+    -fvisibility-inlines-hidden
+    -Wabi-tag
+    -Wctor-dtor-privacy
+    -Wdeprecated-copy-dtor
+    -Wnoexcept
+    -Wclass-memaccess
+    -Wnon-virtual-dtor
+    -Wredundant-tags
+    -Wstrict-null-sentinel
+    -Wold-style-cast
+    -Woverloaded-virtual
+    -Wzero-as-null-pointer-constant
+    -Waligned-new=all
+    -Wplacement-new=2
+    -Wconditionally-supported
+    -Wextra-semi
+    -Wsuggest-final-types
+    -Wsuggest-final-methods
+    -Wsuggest-override
+    -Wuseless-cast
+)
+
+set(CLANG_COMPILE_OPTIONS
+    -Weverything
+    -Wno-c++98-compat
+    -Wno-global-constructors
+    -Wno-shadow-field-in-constructor
+    -Wno-switch-enum
+    -Wno-missing-prototypes
+    -Wno-padded
+)
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(${TARGET_NAME} PRIVATE ${GCC_COMPILE_OPTIONS})
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    target_compile_options(${TARGET_NAME} PRIVATE ${CLANG_COMPILE_OPTIONS})
 endif()
+
 target_link_libraries(${TARGET_NAME}
     CONAN_PKG::backward-cpp
     CONAN_PKG::entt
@@ -74,6 +156,7 @@ target_link_libraries(${TARGET_NAME}
     CONAN_PKG::sfml
     CONAN_PKG::spdlog
 )
+
 target_include_directories(${TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 
 
@@ -87,43 +170,29 @@ add_executable(${TEST_TARGET_NAME}
     systems/tests/looped-animator-tests.cpp
     tests.cpp
 )
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+
+set(LIBS_LINKED_TO_TESTS
+    asan
+    CONAN_PKG::entt
+    CONAN_PKG::gtest
+    CONAN_PKG::sfml
+    CONAN_PKG::spdlog
+)
+
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     target_compile_options(${TEST_TARGET_NAME} PRIVATE
-        -Weverything
-        -Wno-c++98-compat
-        -Wno-global-constructors
-        -Wno-shadow-field-in-constructor
-        -Wno-switch-enum
-        -Wno-missing-prototypes
-        -Wno-padded
-        -Wno-weak-vtables
-        -Werror
-        -fsanitize=address
-    )
-    target_link_libraries(${TEST_TARGET_NAME}
-        asan
-        CONAN_PKG::entt
-        CONAN_PKG::gtest
-        CONAN_PKG::sfml
-        CONAN_PKG::spdlog
-    )
-elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    target_compile_options(${TEST_TARGET_NAME} PRIVATE
-        -Wall
-        -Wextra
-        -Wpedantic
-        -Werror
+        ${GCC_COMPILE_OPTIONS}
         -fsanitize=address
         -fsanitize=undefined
     )
-    target_link_libraries(${TEST_TARGET_NAME}
-        asan
-        ubsan
-        CONAN_PKG::entt
-        CONAN_PKG::gtest
-        CONAN_PKG::sfml
-        CONAN_PKG::spdlog
+    target_link_libraries(${TEST_TARGET_NAME} ${LIBS_LINKED_TO_TESTS} ubsan)
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    target_compile_options(${TEST_TARGET_NAME} PRIVATE
+        ${CLANG_COMPILE_OPTIONS}
+        -Wno-weak-vtables
+        -fsanitize=address
     )
+    target_link_libraries(${TEST_TARGET_NAME} ${LIBS_LINKED_TO_TESTS})
 endif()
 
 target_include_directories(${TEST_TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)

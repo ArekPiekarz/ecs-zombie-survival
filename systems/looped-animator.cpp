@@ -7,7 +7,7 @@
 namespace
 {
 
-const auto FRAME_TIME = WINDOW_FRAME_TIME.asMilliseconds() * ANIMATION_FRAME_TIME_SCALE;
+const auto FRAME_TIME = static_cast<float>(WINDOW_FRAME_TIME.asMilliseconds()) * ANIMATION_FRAME_TIME_SCALE;
 
 }
 
@@ -18,9 +18,9 @@ LoopedAnimator::LoopedAnimator(entt::registry& registry)
 
 void LoopedAnimator::update(const sf::Time elapsed)
 {
-    elapsedSum += static_cast<uint>(elapsed.asMilliseconds());
-    const auto frameProgress = static_cast<uint>(elapsedSum / FRAME_TIME);
-    if (frameProgress == 0)
+    elapsedSum += static_cast<float>(elapsed.asMilliseconds());
+    const auto frameProgress = elapsedSum / FRAME_TIME;
+    if (frameProgress < 1)
     {
         return;
     }
@@ -29,8 +29,8 @@ void LoopedAnimator::update(const sf::Time elapsed)
     for (const auto entity: view)
     {
         auto& animation = view.get<Animation>(entity);
-        animation.frame = (animation.frame + frameProgress) % animation.size;
+        animation.frame = (animation.frame + static_cast<Frame>(frameProgress)) % animation.size;
     }
     
-    elapsedSum -= static_cast<uint>(frameProgress * FRAME_TIME);
+    elapsedSum -= frameProgress * FRAME_TIME;
 }
