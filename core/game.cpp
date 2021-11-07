@@ -5,7 +5,8 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 
-using namespace magic_enum::ostream_operators;
+using magic_enum::enum_name;
+
 
 Game::Game(sf::RenderWindow& window, Systems& systems)
     : window(window), systems(systems)
@@ -39,7 +40,7 @@ void Game::handleEvents()
         }
         default:
         {
-            SPDLOG_DEBUG("Event: {}\n", event.type);
+            SPDLOG_DEBUG("Event: {}\n", enum_name(event.type));
         }
         }
     }

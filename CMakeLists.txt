@@ -6,31 +6,50 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 ### Dependencies
 
-if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
-   message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
-   file(DOWNLOAD "https://github.com/conan-io/cmake-conan/raw/v0.15/conan.cmake"
-                 "${CMAKE_BINARY_DIR}/conan.cmake")
-endif()
-include(${CMAKE_BINARY_DIR}/conan.cmake)
-conan_check()
-conan_add_remote(NAME bincrafters URL https://api.bintray.com/conan/bincrafters/public-conan)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
 
-conan_cmake_run(
+if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+  message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+  file(
+    DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.16.1/conan.cmake"
+             "${CMAKE_BINARY_DIR}/conan.cmake"
+    EXPECTED_HASH SHA256=396e16d0f5eabdc6a14afddbcfff62a54a7ee75c6da23f32f7a31bc85db23484
+    TLS_VERIFY ON)
+endif()
+
+include(${CMAKE_BINARY_DIR}/conan.cmake)
+
+conan_cmake_configure(
     REQUIRES
-        backward-cpp/1.5
-        entt/3.4.0
-        gtest/1.10.0
-        magic_enum/0.6.6
-        sfml/2.5.1@bincrafters/stable
-        spdlog/1.6.1
+        backward-cpp/1.6
+        entt/3.8.1
+        gtest/1.11.0
+        magic_enum/0.7.3
+        sfml/2.5.1
+        spdlog/1.9.2
     OPTIONS
         sfml:audio=False
         sfml:graphics=True
         sfml:network=False
         sfml:window=True
-    BASIC_SETUP
-    CMAKE_TARGETS
-    BUILD outdated)
+    GENERATORS
+        cmake_find_package)
+
+conan_cmake_autodetect(settings)
+
+conan_cmake_install(
+    PATH_OR_REFERENCE .
+    BUILD outdated
+    REMOTE conancenter
+    SETTINGS ${settings})
+
+find_package(Backward)
+find_package(EnTT)
+find_package(GTest)
+find_package(magic_enum)
+find_package(SFML)
+find_package(spdlog)
 
 
 ### Compile options
@@ -166,11 +185,11 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
 endif()
 
 target_link_libraries(${TARGET_NAME}
-    CONAN_PKG::backward-cpp
-    CONAN_PKG::entt
-    CONAN_PKG::magic_enum
-    CONAN_PKG::sfml
-    CONAN_PKG::spdlog
+    Backward::Backward
+    EnTT::EnTT
+    magic_enum::magic_enum
+    SFML::SFML
+    spdlog::spdlog
 )
 
 target_include_directories(${TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
@@ -189,10 +208,10 @@ add_executable(${TEST_TARGET_NAME}
 
 set(LIBS_LINKED_TO_TESTS
     asan
-    CONAN_PKG::entt
-    CONAN_PKG::gtest
-    CONAN_PKG::sfml
-    CONAN_PKG::spdlog
+    EnTT::EnTT
+    GTest::GTest
+    SFML::SFML
+    spdlog::spdlog
 )
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")

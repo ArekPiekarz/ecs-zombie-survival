@@ -44,7 +44,7 @@ void LoopedAnimatorTests::assertAnimationsSameAsInitial() const
 {
     ASSERT_EQ(2, registry.size());
     registry.each([&](const auto entity) {
-        ASSERT_TRUE(registry.has<Animation>(entity));
+        ASSERT_TRUE(registry.all_of<Animation>(entity));
         ASSERT_EQ(animationForEntityMap.at(entity), registry.get<Animation>(entity));
     });
 }
@@ -53,7 +53,7 @@ void LoopedAnimatorTests::assertAnimationsForwardedBy(const uint progress) const
 {
     ASSERT_EQ(2, registry.size());
     registry.each([&](const auto entity) {
-        ASSERT_TRUE(registry.has<Animation>(entity));
+        ASSERT_TRUE(registry.all_of<Animation>(entity));
         auto expectedAnimation = animationForEntityMap.at(entity);
         expectedAnimation.frame += progress;
         ASSERT_EQ(expectedAnimation, registry.get<Animation>(entity));

@@ -18,18 +18,18 @@ using std::vector;
 namespace
 {
 
-constexpr auto TEXTURE_FILE_PATH_PATTERN = "graphics/survivor/flashlight/idle/survivor-idle_flashlight_{}.png";
+constexpr auto TEXTURE_FILE_PATH_PATTERN = "../graphics/survivor/flashlight/idle/survivor-idle_flashlight_{}.png";
 
 }
 
 unique_ptr<ISystem> makeSurvivorRenderer(entt::registry& registry, sf::RenderTarget& renderTarget)
 {
-    auto components = vector<ENTT_ID_TYPE>{
-        entt::type_info<Survivor>::id(),
-        entt::type_info<Animation>::id(),
-        entt::type_info<Position>::id(),
-        entt::type_info<Rotation>::id(),
-        entt::type_info<Scale>::id()};
+    auto components = vector<entt::id_type>{
+        entt::type_hash<Survivor>::value(),
+        entt::type_hash<Animation>::value(),
+        entt::type_hash<Position>::value(),
+        entt::type_hash<Rotation>::value(),
+        entt::type_hash<Scale>::value()};
     auto textures = loadTextures(TEXTURE_FILE_PATH_PATTERN, SURVIVOR_FLASHLIGHT_IDLE_FRAME_SIZE);
     return make_unique<SpriteRenderer>(registry, move(components), renderTarget, move(textures));
 }
