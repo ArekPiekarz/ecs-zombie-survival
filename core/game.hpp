@@ -11,7 +11,7 @@ class Time;
 class Game
 {
 public:
-    Game(sf::RenderWindow&, Systems&);
+    Game(sf::RenderWindow&, EventSystems&, TimeSystems&);
     void run();
 
 private:
@@ -19,5 +19,6 @@ private:
     void update(sf::Time);
 
     sf::RenderWindow& window;
-    Systems& systems;
+    EventSystems& eventSystems;
+    TimeSystems& timeSystems;
 };

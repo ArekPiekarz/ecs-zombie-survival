@@ -22,7 +22,7 @@ constexpr auto TEXTURE_FILE_PATH_PATTERN = "../graphics/zombie/idle/idle00{:0>2}
 
 }
 
-unique_ptr<ISystem> makeZombieRenderer(entt::registry& registry, sf::RenderTarget& renderTarget)
+unique_ptr<ITimeSystem> makeZombieRenderer(entt::registry& registry, sf::RenderTarget& renderTarget)
 {
     auto components = vector<entt::id_type>{
         entt::type_hash<Zombie>::value(),

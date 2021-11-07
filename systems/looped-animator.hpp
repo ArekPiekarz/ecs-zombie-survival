@@ -1,10 +1,9 @@
 #pragma once
 
-#include "types/uint.hpp"
-#include "systems/isystem.hpp"
+#include "systems/itime-system.hpp"
 #include <entt/fwd.hpp>
 
-class LoopedAnimator : public ISystem
+class LoopedAnimator : public ITimeSystem
 {
 public:
     LoopedAnimator(entt::registry&);

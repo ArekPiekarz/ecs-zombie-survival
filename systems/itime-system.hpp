@@ -2,9 +2,9 @@
 
 namespace sf { class Time; }
 
-class ISystem
+class ITimeSystem
 {
 public:
-    virtual ~ISystem();
+    virtual ~ITimeSystem();
     virtual void update(sf::Time) = 0;
 };

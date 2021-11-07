@@ -22,7 +22,7 @@ constexpr auto TEXTURE_FILE_PATH_PATTERN = "../graphics/survivor/flashlight/idle
 
 }
 
-unique_ptr<ISystem> makeSurvivorRenderer(entt::registry& registry, sf::RenderTarget& renderTarget)
+unique_ptr<ITimeSystem> makeSurvivorRenderer(entt::registry& registry, sf::RenderTarget& renderTarget)
 {
     auto components = vector<entt::id_type>{
         entt::type_hash<Survivor>::value(),

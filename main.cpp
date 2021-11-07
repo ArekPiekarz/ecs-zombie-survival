@@ -7,6 +7,7 @@
 #include "setup/window.hpp"
 #include "setup/zombie-renderer-setup.hpp"
 #include "setup/zombie-setup.hpp"
+#include "systems/aimer.hpp"
 #include "systems/looped-animator.hpp"
 #include "systems/systems.hpp"
 #include <entt/entity/registry.hpp>
@@ -23,12 +24,15 @@ int main()
     setupSurvivor(registry);
     setupZombies(registry);
 
-    auto systems = Systems{};
-    systems.emplace_back(make_unique<LoopedAnimator>(registry));
-    systems.emplace_back(makeSurvivorRenderer(registry, *window));
-    systems.emplace_back(makeZombieRenderer(registry, *window));
+    auto eventSystems = EventSystems{};
+    eventSystems.emplace(sf::Event::MouseMoved, make_unique<Aimer>(registry));
 
-    Game game{*window, systems};
+    auto timeSystems = TimeSystems{};
+    timeSystems.emplace_back(make_unique<LoopedAnimator>(registry));
+    timeSystems.emplace_back(makeSurvivorRenderer(registry, *window));
+    timeSystems.emplace_back(makeZombieRenderer(registry, *window));
+
+    Game game{*window, eventSystems, timeSystems};
     game.run();
     return 0;
 }

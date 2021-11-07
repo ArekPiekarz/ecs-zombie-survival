@@ -3,7 +3,7 @@
 #include <entt/fwd.hpp>
 #include <memory>
 
-class ISystem;
+class ITimeSystem;
 namespace sf { class RenderTarget; }
 
-std::unique_ptr<ISystem> makeZombieRenderer(entt::registry&, sf::RenderTarget&);
+std::unique_ptr<ITimeSystem> makeZombieRenderer(entt::registry&, sf::RenderTarget&);

@@ -1,13 +1,13 @@
 #pragma once
 
-#include "systems/isystem.hpp"
+#include "systems/itime-system.hpp"
 #include "types/component-ids.hpp"
 #include "types/textures.hpp"
 #include <entt/fwd.hpp>
 
 namespace sf{ class Time; }
 
-class SpriteRenderer : public ISystem
+class SpriteRenderer : public ITimeSystem
 {
 public:
     SpriteRenderer(const entt::registry&, ComponentIds, sf::RenderTarget&, Textures);

@@ -75,6 +75,8 @@ endif()
 set(TARGET_NAME ${CMAKE_PROJECT_NAME})
 add_executable(${TARGET_NAME}
     core/game.cpp
+    exceptions/unexpected-event-error.cpp
+    maths/radians.cpp
     setup/logger-setup.cpp
     setup/survivor-renderer-setup.cpp
     setup/survivor-setup.cpp
@@ -82,7 +84,9 @@ add_executable(${TARGET_NAME}
     setup/window.cpp
     setup/zombie-renderer-setup.cpp
     setup/zombie-setup.cpp
-    systems/isystem.cpp
+    systems/aimer.cpp
+    systems/ievent-system.cpp
+    systems/itime-system.cpp
     systems/looped-animator.cpp
     systems/sprite-renderer.cpp
     main.cpp
@@ -200,7 +204,7 @@ target_include_directories(${TARGET_NAME} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRE
 set(TEST_TARGET_NAME ${TARGET_NAME}-test)
 add_executable(${TEST_TARGET_NAME}
     setup/logger-setup.cpp
-    systems/isystem.cpp
+    systems/itime-system.cpp
     systems/looped-animator.cpp
     systems/tests/looped-animator-tests.cpp
     tests.cpp

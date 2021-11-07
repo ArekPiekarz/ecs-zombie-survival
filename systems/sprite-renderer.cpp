@@ -31,13 +31,13 @@ void SpriteRenderer::update(sf::Time)
         const auto bounds = sprite.getLocalBounds();
         sprite.setOrigin(bounds.width/2, bounds.height/2);
 
-        const auto& position = registry.get<Position>(entity);
+        const auto position = registry.get<Position>(entity);
         sprite.setPosition({position.x, position.y});
 
-        const auto& rotation = registry.get<Rotation>(entity);
+        const auto rotation = registry.get<Rotation>(entity);
         sprite.setRotation(rotation.angle);
 
-        const auto& scale = registry.get<Scale>(entity);
+        const auto scale = registry.get<Scale>(entity);
         sprite.setScale(scale.value, scale.value);
 
         renderTarget.draw(sprite);

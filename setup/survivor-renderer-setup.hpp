@@ -3,7 +3,7 @@
 #include <entt/fwd.hpp>
 #include <memory>
 
-class ISystem;
+class ITimeSystem;
 namespace sf { class RenderTarget; }
 
-std::unique_ptr<ISystem> makeSurvivorRenderer(entt::registry&, sf::RenderTarget&);
+std::unique_ptr<ITimeSystem> makeSurvivorRenderer(entt::registry&, sf::RenderTarget&);
